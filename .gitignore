@@ -31,7 +31,16 @@ yarn-error.*
 *.pem
 
 # local env files
+.env
 .env*.local
 
 # typescript
 *.tsbuildinfo
+
+# Database Configuration
+MONGODB_URI=mongodb+srv://rohan:rohan123@safacycle.vtwnk4r.mongodb.net/
+MONGODB_TEST_URI=mongodb+srv://rohan:rohan123@safacycle.vtwnk4r.mongodb.net/
+
+# JWT Configuration
+JWT_SECRET=M8AAo3o5nL5JvErqW8VW9wotT8EJtKIxvUwlmu+dJFQ=
+JWT_EXPIRE=30d
