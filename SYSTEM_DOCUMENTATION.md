@@ -1,6 +1,7 @@
 # Smart Waste Management System - Technical Documentation
 
 ## Table of Contents
+
 1. [System Overview](#1-system-overview)
 2. [Architecture & Design](#2-architecture--design)
 3. [Technology Stack](#3-technology-stack)
@@ -17,9 +18,11 @@
 ## 1. System Overview
 
 ### 1.1 Project Description
+
 The Smart Waste Management System is a comprehensive mobile application designed to revolutionize waste collection processes through intelligent automation, real-time monitoring, and AI-powered waste classification. The system serves three distinct user roles: Administrators, Drivers, and Customers, each with specialized functionalities optimized for their specific needs.
 
 ### 1.2 Core Objectives
+
 - **Operational Efficiency**: Streamline waste collection through optimized routing and scheduling
 - **Environmental Sustainability**: Promote eco-friendly practices through intelligent waste classification
 - **Real-time Monitoring**: Provide live tracking and status updates for enhanced transparency
@@ -27,6 +30,7 @@ The Smart Waste Management System is a comprehensive mobile application designed
 - **Data-Driven Insights**: Generate actionable analytics for continuous improvement
 
 ### 1.3 Key Features
+
 - **Role-Based Access Control** with three distinct user types
 - **AI-Powered Waste Classification** using computer vision
 - **Real-Time Driver Tracking** via WebSocket communication
@@ -39,6 +43,7 @@ The Smart Waste Management System is a comprehensive mobile application designed
 ## 2. Architecture & Design
 
 ### 2.1 System Architecture
+
 The application follows a **three-tier architecture** pattern:
 
 ```
@@ -73,6 +78,7 @@ The application follows a **three-tier architecture** pattern:
 ### 2.2 Component Architecture
 
 #### Frontend Structure
+
 ```
 src/
 ├── components/          # Reusable UI components
@@ -97,6 +103,7 @@ src/
 ```
 
 #### Backend Structure
+
 ```
 backend/
 ├── models/              # MongoDB data models
@@ -120,6 +127,7 @@ backend/
 The system implements a sophisticated three-tier RBAC model:
 
 #### Administrator Role
+
 - **User Management**: Complete CRUD operations for all user types
 - **Driver Management**: Assignment, tracking, and performance monitoring
 - **Route Optimization**: Dynamic route planning and optimization
@@ -127,6 +135,7 @@ The system implements a sophisticated three-tier RBAC model:
 - **Configuration Management**: System-wide settings and parameters
 
 #### Driver Role
+
 - **Route Management**: Access to assigned routes and navigation
 - **Collection Updates**: Real-time status updates and progress tracking
 - **Location Broadcasting**: GPS tracking for customer transparency
@@ -134,6 +143,7 @@ The system implements a sophisticated three-tier RBAC model:
 - **Performance Metrics**: Personal performance analytics
 
 #### Customer Role
+
 - **Collection Scheduling**: Request and manage waste pickup appointments
 - **Driver Tracking**: Real-time location and ETA information
 - **Waste Classification**: AI-powered waste type identification
@@ -147,21 +157,25 @@ The system implements a sophisticated three-tier RBAC model:
 ### 3.1 Frontend Technologies
 
 #### Core Framework
+
 - **React Native 0.79.5**: Cross-platform mobile development
 - **Expo SDK 53**: Development toolkit and runtime
 - **React 19.0.0**: Component-based UI library
 
 #### Navigation & State Management
+
 - **React Navigation v7**: Declarative navigation system
 - **Context API**: Centralized state management
 - **AsyncStorage**: Local data persistence
 
 #### UI & Styling
+
 - **Custom Theme System**: Consistent design language
 - **Environmental Color Palette**: Green-focused color scheme
 - **Responsive Design**: Adaptive layouts for different screen sizes
 
 #### Advanced Features
+
 - **Expo Camera**: Image capture and processing
 - **Expo Notifications**: Push notification system
 - **TensorFlow.js**: On-device machine learning
@@ -170,18 +184,21 @@ The system implements a sophisticated three-tier RBAC model:
 ### 3.2 Backend Technologies
 
 #### Core Framework
+
 - **Node.js**: JavaScript runtime environment
 - **Express.js**: Web application framework
 - **MongoDB**: Document-oriented database
 - **Mongoose**: Object Document Mapping (ODM)
 
 #### Security & Authentication
+
 - **JWT (JSON Web Tokens)**: Stateless authentication
 - **bcryptjs**: Password hashing and verification
 - **Helmet.js**: Security headers middleware
 - **express-rate-limit**: API rate limiting
 
 #### Development & Deployment
+
 - **CORS**: Cross-origin resource sharing
 - **Morgan**: HTTP request logging
 - **dotenv**: Environment variable management
@@ -189,12 +206,14 @@ The system implements a sophisticated three-tier RBAC model:
 ### 3.3 Machine Learning Integration
 
 #### Model Architecture
+
 - **Base Model**: MobileNetV2 (Transfer Learning)
 - **Input Size**: 224×224×3 RGB images
 - **Classification**: Binary (Biodegradable vs Non-Biodegradable)
 - **Deployment**: TensorFlow.js for client-side inference
 
 #### Training Specifications
+
 - **Dataset**: Custom waste classification dataset
 - **Architecture**: Pre-trained MobileNetV2 + custom classification head
 - **Optimization**: Adam optimizer with learning rate scheduling
@@ -207,6 +226,7 @@ The system implements a sophisticated three-tier RBAC model:
 ### 4.1 Data Models
 
 #### User Model Schema
+
 ```javascript
 {
   _id: ObjectId,
@@ -275,6 +295,7 @@ The system implements a sophisticated three-tier RBAC model:
 ```
 
 #### Collection Request Model
+
 ```javascript
 {
   _id: ObjectId,
@@ -316,6 +337,7 @@ The system implements a sophisticated three-tier RBAC model:
 ```
 
 #### Vehicle Model
+
 ```javascript
 {
   _id: ObjectId,
@@ -352,25 +374,27 @@ The system implements a sophisticated three-tier RBAC model:
 ### 4.2 Database Optimization
 
 #### Indexing Strategy
+
 ```javascript
 // User collection indexes
-db.users.createIndex({ email: 1 }, { unique: true })
-db.users.createIndex({ role: 1, status: 1 })
-db.users.createIndex({ "profile.phone": 1 })
+db.users.createIndex({ email: 1 }, { unique: true });
+db.users.createIndex({ role: 1, status: 1 });
+db.users.createIndex({ "profile.phone": 1 });
 
 // Collection requests indexes
-db.collectionrequests.createIndex({ customer: 1, status: 1 })
-db.collectionrequests.createIndex({ assignedDriver: 1, requestedDate: 1 })
-db.collectionrequests.createIndex({ location: "2dsphere" })
-db.collectionrequests.createIndex({ requestedDate: 1, status: 1 })
+db.collectionrequests.createIndex({ customer: 1, status: 1 });
+db.collectionrequests.createIndex({ assignedDriver: 1, requestedDate: 1 });
+db.collectionrequests.createIndex({ location: "2dsphere" });
+db.collectionrequests.createIndex({ requestedDate: 1, status: 1 });
 
 // Vehicle collection indexes
-db.vehicles.createIndex({ vehicleNumber: 1 }, { unique: true })
-db.vehicles.createIndex({ status: 1, type: 1 })
-db.vehicles.createIndex({ location: "2dsphere" })
+db.vehicles.createIndex({ vehicleNumber: 1 }, { unique: true });
+db.vehicles.createIndex({ status: 1, type: 1 });
+db.vehicles.createIndex({ location: "2dsphere" });
 ```
 
 #### Query Optimization Patterns
+
 - **Aggregation Pipeline**: Complex data transformations and analytics
 - **Population Strategy**: Selective field population to minimize data transfer
 - **Pagination**: Cursor-based pagination for large datasets
@@ -383,9 +407,11 @@ db.vehicles.createIndex({ location: "2dsphere" })
 ### 5.1 Authentication Endpoints
 
 #### POST /api/auth/signup
+
 Register a new user account.
 
 **Request Body:**
+
 ```javascript
 {
   "name": "John Doe",
@@ -396,6 +422,7 @@ Register a new user account.
 ```
 
 **Response:**
+
 ```javascript
 {
   "success": true,
@@ -413,9 +440,11 @@ Register a new user account.
 ```
 
 #### POST /api/auth/login
+
 Authenticate existing user.
 
 **Request Body:**
+
 ```javascript
 {
   "email": "john@example.com",
@@ -424,6 +453,7 @@ Authenticate existing user.
 ```
 
 **Response:**
+
 ```javascript
 {
   "success": true,
@@ -443,14 +473,17 @@ Authenticate existing user.
 ### 5.2 Collection Management Endpoints
 
 #### POST /api/collections
+
 Schedule a new waste collection.
 
 **Headers:**
+
 ```
 Authorization: Bearer {jwt_token}
 ```
 
 **Request Body:**
+
 ```javascript
 {
   "wasteTypes": [
@@ -474,6 +507,7 @@ Authorization: Bearer {jwt_token}
 ```
 
 **Response:**
+
 ```javascript
 {
   "success": true,
@@ -490,13 +524,16 @@ Authorization: Bearer {jwt_token}
 ```
 
 #### GET /api/collections/upcoming
+
 Retrieve upcoming collections for authenticated user.
 
 **Query Parameters:**
+
 - `limit`: Number of results (default: 10)
 - `offset`: Pagination offset (default: 0)
 
 **Response:**
+
 ```javascript
 {
   "success": true,
@@ -526,9 +563,11 @@ Retrieve upcoming collections for authenticated user.
 ### 5.3 Analytics Endpoints
 
 #### GET /api/analytics/dashboard
+
 Retrieve dashboard analytics data.
 
 **Response:**
+
 ```javascript
 {
   "success": true,
@@ -558,6 +597,7 @@ Retrieve dashboard analytics data.
 ### 5.4 Error Handling
 
 #### Standard Error Response Format
+
 ```javascript
 {
   "success": false,
@@ -573,6 +613,7 @@ Retrieve dashboard analytics data.
 ```
 
 #### HTTP Status Codes
+
 - `200` - Success
 - `201` - Created
 - `400` - Bad Request (validation errors)
@@ -589,6 +630,7 @@ Retrieve dashboard analytics data.
 ### 6.1 Authentication & Authorization
 
 #### JWT Token Structure
+
 ```javascript
 {
   "header": {
@@ -606,20 +648,21 @@ Retrieve dashboard analytics data.
 ```
 
 #### Role-Based Middleware
+
 ```javascript
 const authorize = (roles = []) => {
   return (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({
         success: false,
-        message: 'Authentication required'
+        message: "Authentication required",
       });
     }
 
     if (roles.length && !roles.includes(req.user.role)) {
       return res.status(403).json({
         success: false,
-        message: 'Insufficient permissions'
+        message: "Insufficient permissions",
       });
     }
 
@@ -631,16 +674,19 @@ const authorize = (roles = []) => {
 ### 6.2 Data Protection
 
 #### Password Security
+
 - **Hashing Algorithm**: bcrypt with salt rounds (12)
 - **Password Requirements**: Minimum 6 characters
 - **Password Reset**: Secure token-based reset mechanism
 
 #### Input Validation
+
 - **Schema Validation**: Mongoose schema-level validation
 - **Sanitization**: Input sanitization to prevent injection attacks
 - **Rate Limiting**: API endpoint protection against abuse
 
 #### Data Encryption
+
 - **Transmission**: HTTPS/TLS encryption for all communications
 - **Storage**: Encrypted sensitive data fields
 - **Backup**: Encrypted database backups
@@ -648,27 +694,26 @@ const authorize = (roles = []) => {
 ### 6.3 API Security
 
 #### Rate Limiting Configuration
+
 ```javascript
 const rateLimiter = {
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100,                  // Maximum 100 requests per window
+  max: 100, // Maximum 100 requests per window
   message: {
-    error: 'Too many requests, please try again later'
+    error: "Too many requests, please try again later",
   },
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
 };
 ```
 
 #### CORS Configuration
+
 ```javascript
 const corsOptions = {
-  origin: [
-    'http://localhost:8081',
-    'https://your-production-domain.com'
-  ],
+  origin: ["http://localhost:8081", "https://your-production-domain.com"],
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
 };
 ```
 
@@ -679,35 +724,40 @@ const corsOptions = {
 ### 7.1 Real-Time Communication
 
 #### WebSocket Implementation
+
 The system implements WebSocket connections for real-time updates:
 
 **Driver Location Tracking:**
+
 ```javascript
 // Client-side WebSocket connection
 const wsService = {
   connect: () => {
-    const ws = new WebSocket('ws://localhost:5003');
-    
+    const ws = new WebSocket("ws://localhost:5003");
+
     ws.onopen = () => {
-      console.log('WebSocket connected');
+      console.log("WebSocket connected");
     };
-    
+
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
       handleLocationUpdate(data);
     };
   },
-  
+
   sendLocation: (location) => {
-    ws.send(JSON.stringify({
-      type: 'LOCATION_UPDATE',
-      data: location
-    }));
-  }
+    ws.send(
+      JSON.stringify({
+        type: "LOCATION_UPDATE",
+        data: location,
+      })
+    );
+  },
 };
 ```
 
 **Event Types:**
+
 - `LOCATION_UPDATE`: Driver GPS coordinates
 - `STATUS_CHANGE`: Collection status updates
 - `DRIVER_MESSAGE`: Communication between driver and customer
@@ -716,37 +766,39 @@ const wsService = {
 ### 7.2 AI-Powered Waste Classification
 
 #### Machine Learning Pipeline
+
 ```javascript
 class ModelService {
   async classifyWaste(imageUri) {
     // 1. Image preprocessing
     const processedImage = await this.preprocessImage(imageUri);
-    
+
     // 2. Model inference
     const prediction = await this.runInference(processedImage);
-    
+
     // 3. Post-processing
     return this.formatPrediction(prediction);
   }
-  
+
   preprocessImage(imageUri) {
     // Resize to 224x224
     // Normalize pixel values
     // Convert to tensor format
   }
-  
+
   formatPrediction(prediction) {
     return {
       category: prediction.category,
       confidence: prediction.confidence,
       recyclingInstructions: this.getInstructions(prediction.category),
-      environmentalImpact: this.calculateImpact(prediction.category)
+      environmentalImpact: this.calculateImpact(prediction.category),
     };
   }
 }
 ```
 
 #### Classification Categories
+
 - **Biodegradable**: Organic waste, paper, textiles
 - **Non-Biodegradable**: Plastic, glass, metal, electronics
 - **Hazardous**: Batteries, chemicals, medical waste
@@ -755,27 +807,29 @@ class ModelService {
 ### 7.3 Push Notification System
 
 #### Notification Categories
+
 ```javascript
 const notificationTypes = {
   PICKUP_REMINDER: {
-    title: 'Pickup Reminder',
-    body: 'Your waste collection is scheduled for tomorrow',
-    priority: 'high'
+    title: "Pickup Reminder",
+    body: "Your waste collection is scheduled for tomorrow",
+    priority: "high",
   },
   DRIVER_ARRIVED: {
-    title: 'Driver Arrived',
-    body: 'Your collection driver has arrived',
-    priority: 'urgent'
+    title: "Driver Arrived",
+    body: "Your collection driver has arrived",
+    priority: "urgent",
   },
   ECO_TIP: {
-    title: 'Eco Tip',
-    body: 'Did you know you can compost fruit peels?',
-    priority: 'normal'
-  }
+    title: "Eco Tip",
+    body: "Did you know you can compost fruit peels?",
+    priority: "normal",
+  },
 };
 ```
 
 #### Notification Scheduling
+
 - **Pickup Reminders**: 24 hours and 1 hour before collection
 - **Driver Updates**: Real-time status changes
 - **Educational Content**: Weekly eco-tips and recycling information
@@ -788,24 +842,27 @@ const notificationTypes = {
 ### 8.1 Frontend Optimization
 
 #### Code Splitting & Lazy Loading
+
 ```javascript
 // Screen-level code splitting
-const AdminDashboard = React.lazy(() => import('./screens/AdminDashboard'));
-const DriverDashboard = React.lazy(() => import('./screens/DriverDashboard'));
+const AdminDashboard = React.lazy(() => import("./screens/AdminDashboard"));
+const DriverDashboard = React.lazy(() => import("./screens/DriverDashboard"));
 
 // Navigation with Suspense
 <Suspense fallback={<LoadingScreen />}>
   <Stack.Screen component={AdminDashboard} />
-</Suspense>
+</Suspense>;
 ```
 
 #### Image Optimization
+
 - **Compression**: Automatic image compression for uploads
 - **Caching**: AsyncStorage-based image caching
 - **Lazy Loading**: Progressive image loading for galleries
 - **Format Optimization**: WebP format support where available
 
 #### State Management Optimization
+
 - **Context Splitting**: Separate contexts for different data domains
 - **Memoization**: React.memo and useMemo for expensive computations
 - **Selective Re-renders**: Optimized dependency arrays
@@ -813,6 +870,7 @@ const DriverDashboard = React.lazy(() => import('./screens/DriverDashboard'));
 ### 8.2 Backend Optimization
 
 #### Database Query Optimization
+
 ```javascript
 // Optimized aggregation pipeline
 const getDashboardAnalytics = async (userId) => {
@@ -822,29 +880,31 @@ const getDashboardAnalytics = async (userId) => {
       $group: {
         _id: null,
         totalCollections: { $sum: 1 },
-        totalWeight: { $sum: '$totalWeight' },
-        avgRating: { $avg: '$customerRating' }
-      }
+        totalWeight: { $sum: "$totalWeight" },
+        avgRating: { $avg: "$customerRating" },
+      },
     },
     {
       $project: {
         _id: 0,
         totalCollections: 1,
         totalWeight: 1,
-        avgRating: { $round: ['$avgRating', 2] }
-      }
-    }
+        avgRating: { $round: ["$avgRating", 2] },
+      },
+    },
   ]);
 };
 ```
 
 #### Caching Strategy
+
 - **Redis Integration**: Cache frequently accessed data
 - **Cache Invalidation**: Smart cache invalidation on data updates
 - **Session Storage**: Optimized session management
 - **CDN Integration**: Static asset delivery optimization
 
 #### Connection Pooling
+
 ```javascript
 const mongooseOptions = {
   useNewUrlParser: true,
@@ -852,19 +912,21 @@ const mongooseOptions = {
   maxPoolSize: 10,
   serverSelectionTimeoutMS: 5000,
   socketTimeoutMS: 45000,
-  bufferMaxEntries: 0
+  bufferMaxEntries: 0,
 };
 ```
 
 ### 8.3 Mobile App Performance
 
 #### Bundle Size Optimization
+
 - **Metro Bundler**: Optimized bundling configuration
 - **Dead Code Elimination**: Removal of unused code
 - **Asset Optimization**: Compressed images and fonts
 - **Selective Imports**: Import only required modules
 
 #### Memory Management
+
 - **Component Cleanup**: Proper useEffect cleanup
 - **Event Listener Management**: Remove listeners on unmount
 - **Image Memory**: Efficient image loading and disposal
@@ -877,6 +939,7 @@ const mongooseOptions = {
 ### 9.1 Development Environment
 
 #### Local Development Setup
+
 ```bash
 # Frontend setup
 cd SmartWasteManagementSystem
@@ -894,6 +957,7 @@ MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/database
 ```
 
 #### Environment Configuration
+
 ```javascript
 // .env file structure
 NODE_ENV=development
@@ -908,6 +972,7 @@ RATE_LIMIT_MAX_REQUESTS=100
 ### 9.2 Production Deployment
 
 #### Frontend Deployment (Expo)
+
 ```bash
 # Build for production
 expo build:android
@@ -921,6 +986,7 @@ expo upload:ios
 #### Backend Deployment Options
 
 **Option 1: Traditional VPS/Cloud Server**
+
 ```bash
 # PM2 process management
 pm2 start server.js --name "waste-management-api"
@@ -929,6 +995,7 @@ pm2 save
 ```
 
 **Option 2: Docker Containerization**
+
 ```dockerfile
 FROM node:16-alpine
 WORKDIR /app
@@ -940,6 +1007,7 @@ CMD ["npm", "start"]
 ```
 
 **Option 3: Serverless (AWS Lambda)**
+
 ```javascript
 // Serverless framework configuration
 service: waste-management-api
@@ -959,6 +1027,7 @@ functions:
 ### 9.3 Scalability Architecture
 
 #### Horizontal Scaling Strategy
+
 ```
                     ┌─────────────────┐
                     │   Load Balancer │
@@ -981,6 +1050,7 @@ functions:
 ```
 
 #### Microservices Migration Path
+
 ```
 Current Monolith → Target Microservices
 ├── Auth Service       (User authentication)
@@ -992,6 +1062,7 @@ Current Monolith → Target Microservices
 ```
 
 #### Performance Monitoring
+
 - **Application Monitoring**: New Relic or DataDog integration
 - **Database Monitoring**: MongoDB Atlas monitoring
 - **Error Tracking**: Sentry for real-time error monitoring
@@ -1004,32 +1075,34 @@ Current Monolith → Target Microservices
 ### 10.1 Sustainability Metrics
 
 #### Carbon Footprint Calculation
+
 ```javascript
 const calculateEnvironmentalImpact = (collectionData) => {
   const metrics = {
     // CO2 saved through optimized routing
     routeOptimization: calculateRouteSavings(collectionData.routes),
-    
+
     // Recycling impact
     recyclingImpact: calculateRecyclingBenefit(collectionData.wasteTypes),
-    
+
     // Waste diversion from landfills
     wasteDiversion: calculateDiversionImpact(collectionData.totalWeight),
-    
+
     // Water conservation through recycling
-    waterConservation: calculateWaterSavings(collectionData.recycledWeight)
+    waterConservation: calculateWaterSavings(collectionData.recycledWeight),
   };
-  
+
   return {
     totalCO2Saved: metrics.routeOptimization + metrics.recyclingImpact,
     wasteRecycled: metrics.wasteDiversion,
     waterSaved: metrics.waterConservation,
-    treesEquivalent: metrics.totalCO2Saved / 21 // 1 tree absorbs ~21kg CO2/year
+    treesEquivalent: metrics.totalCO2Saved / 21, // 1 tree absorbs ~21kg CO2/year
   };
 };
 ```
 
 #### Impact Visualization
+
 - **Personal Dashboard**: Individual environmental contribution
 - **Community Metrics**: Neighborhood-level impact aggregation
 - **City-wide Analytics**: Municipal sustainability reporting
@@ -1038,25 +1111,27 @@ const calculateEnvironmentalImpact = (collectionData) => {
 ### 10.2 Smart City Integration
 
 #### IoT Sensor Integration
+
 ```javascript
 const iotIntegration = {
   smartBins: {
-    fillLevel: 'percentage',
-    location: 'gps_coordinates',
-    lastEmpty: 'timestamp',
-    temperature: 'celsius',
-    weight: 'kilograms'
+    fillLevel: "percentage",
+    location: "gps_coordinates",
+    lastEmpty: "timestamp",
+    temperature: "celsius",
+    weight: "kilograms",
   },
-  
+
   routeOptimization: {
-    realTimeTraffic: 'traffic_api',
-    weatherConditions: 'weather_api',
-    fuelPrices: 'fuel_api'
-  }
+    realTimeTraffic: "traffic_api",
+    weatherConditions: "weather_api",
+    fuelPrices: "fuel_api",
+  },
 };
 ```
 
 #### Open Data Standards
+
 - **GTFS (General Transit Feed Specification)**: Route and schedule data
 - **Open311**: Service request management
 - **CKAN**: Open data portal integration
@@ -1065,6 +1140,7 @@ const iotIntegration = {
 ### 10.3 Future Enhancements
 
 #### Planned Features
+
 1. **Blockchain Integration**: Carbon credit tracking and trading
 2. **AR Waste Classification**: Augmented reality for waste identification
 3. **Predictive Analytics**: ML-powered demand forecasting
@@ -1072,6 +1148,7 @@ const iotIntegration = {
 5. **Integration APIs**: Third-party service integrations
 
 #### Research & Development
+
 - **Computer Vision**: Advanced waste sorting algorithms
 - **Route Optimization**: AI-powered dynamic routing
 - **Behavioral Analytics**: User behavior prediction models
@@ -1084,6 +1161,7 @@ const iotIntegration = {
 The Smart Waste Management System represents a comprehensive solution that combines modern software engineering practices, machine learning capabilities, and environmental consciousness. The system's architecture is designed for scalability, maintainability, and extensibility, making it suitable for deployment in various urban environments.
 
 Key technical achievements include:
+
 - **Robust Three-Tier Architecture** with clear separation of concerns
 - **Advanced Security Implementation** with JWT authentication and role-based access control
 - **Real-Time Communication** via WebSocket integration
@@ -1099,6 +1177,7 @@ The system is production-ready and can be deployed using modern DevOps practices
 ## Appendix
 
 ### A. Technology Versions
+
 - React Native: 0.79.5
 - Expo SDK: 53
 - Node.js: 16+
@@ -1106,6 +1185,7 @@ The system is production-ready and can be deployed using modern DevOps practices
 - Express.js: 4.18+
 
 ### B. External Dependencies
+
 - @react-navigation/native: 7.1.16
 - mongoose: Latest
 - bcryptjs: Latest
@@ -1113,6 +1193,7 @@ The system is production-ready and can be deployed using modern DevOps practices
 - expo-notifications: 0.31.4
 
 ### C. Development Tools
+
 - VS Code with React Native extensions
 - Expo CLI
 - MongoDB Compass
@@ -1120,6 +1201,7 @@ The system is production-ready and can be deployed using modern DevOps practices
 - Git for version control
 
 ### D. Useful Links
+
 - [React Native Documentation](https://reactnative.dev/)
 - [Expo Documentation](https://docs.expo.dev/)
 - [MongoDB Documentation](https://docs.mongodb.com/)
@@ -1127,6 +1209,6 @@ The system is production-ready and can be deployed using modern DevOps practices
 
 ---
 
-*Last Updated: August 2, 2025*
-*Version: 1.0.0*
-*Author: Smart Waste Management Development Team*
+_Last Updated: August 2, 2025_
+_Version: 1.0.0_
+_Author: Smart Waste Management Development Team_
